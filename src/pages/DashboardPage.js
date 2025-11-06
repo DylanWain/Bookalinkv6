@@ -1062,7 +1062,7 @@ const ThemeTab = ({ currentUser, supabase, onReload }) => {
   );
 };
 // ========================================
-// PROFILE TAB - BIO FIX
+// PROFILE TAB - FIXED BIO SAVING
 // ========================================
 const ProfileTab = ({ currentUser, supabase, onReload }) => {
   const [formData, setFormData] = useState({
@@ -1074,6 +1074,11 @@ const ProfileTab = ({ currentUser, supabase, onReload }) => {
   const [saving, setSaving] = useState(false);
 
   const handleSave = async () => {
+    if (!currentUser?.id) {
+      alert("Error: No user ID found");
+      return;
+    }
+
     setSaving(true);
     try {
       // Update sellers table
@@ -1087,9 +1092,12 @@ const ProfileTab = ({ currentUser, supabase, onReload }) => {
         })
         .eq("id", currentUser.id);
 
-      if (sellerError) throw sellerError;
+      if (sellerError) {
+        console.error("Seller update error:", sellerError);
+        throw sellerError;
+      }
 
-      // ALSO update auth metadata to ensure bio persists
+      // Update auth metadata
       const { error: metadataError } = await supabase.auth.updateUser({
         data: {
           name: formData.name,
@@ -1103,16 +1111,13 @@ const ProfileTab = ({ currentUser, supabase, onReload }) => {
         console.warn("Metadata update warning:", metadataError);
       }
 
-      alert("Profile updated!");
-
-      // Force reload to get fresh data
+      alert("Profile updated successfully!");
+      
+      // Reload data without refreshing page
       await onReload();
-
-      // Refresh the page to ensure all data is synced
-      window.location.reload();
     } catch (error) {
-      console.error("Error:", error);
-      alert("Failed to update profile");
+      console.error("Error updating profile:", error);
+      alert(`Failed to update profile: ${error.message}`);
     } finally {
       setSaving(false);
     }
@@ -1128,24 +1133,13 @@ const ProfileTab = ({ currentUser, supabase, onReload }) => {
         boxShadow: "4px 4px 0px #000000",
       }}
     >
-      <h2
-        style={{
-          fontSize: "clamp(18px, 4vw, 20px)",
-          fontWeight: 700,
-          marginBottom: "20px",
-        }}
-      >
+      <h2 style={{ fontSize: "clamp(18px, 4vw, 20px)", fontWeight: 700, marginBottom: "20px" }}>
         Edit Profile
       </h2>
 
       <div style={{ marginBottom: "20px" }}>
         <label
-          style={{
-            display: "block",
-            marginBottom: "8px",
-            fontWeight: 600,
-            fontSize: "clamp(13px, 3vw, 14px)",
-          }}
+          style={{ display: "block", marginBottom: "8px", fontWeight: 600, fontSize: "clamp(13px, 3vw, 14px)" }}
         >
           Profile Photo
         </label>
@@ -1160,12 +1154,7 @@ const ProfileTab = ({ currentUser, supabase, onReload }) => {
 
       <div style={{ marginBottom: "16px" }}>
         <label
-          style={{
-            display: "block",
-            marginBottom: "8px",
-            fontWeight: 600,
-            fontSize: "clamp(13px, 3vw, 14px)",
-          }}
+          style={{ display: "block", marginBottom: "8px", fontWeight: 600, fontSize: "clamp(13px, 3vw, 14px)" }}
         >
           Full Name
         </label>
@@ -1184,12 +1173,7 @@ const ProfileTab = ({ currentUser, supabase, onReload }) => {
 
       <div style={{ marginBottom: "16px" }}>
         <label
-          style={{
-            display: "block",
-            marginBottom: "8px",
-            fontWeight: 600,
-            fontSize: "clamp(13px, 3vw, 14px)",
-          }}
+          style={{ display: "block", marginBottom: "8px", fontWeight: 600, fontSize: "clamp(13px, 3vw, 14px)" }}
         >
           Business Name
         </label>
@@ -1210,12 +1194,7 @@ const ProfileTab = ({ currentUser, supabase, onReload }) => {
 
       <div style={{ marginBottom: "16px" }}>
         <label
-          style={{
-            display: "block",
-            marginBottom: "8px",
-            fontWeight: 600,
-            fontSize: "clamp(13px, 3vw, 14px)",
-          }}
+          style={{ display: "block", marginBottom: "8px", fontWeight: 600, fontSize: "clamp(13px, 3vw, 14px)" }}
         >
           Bio
         </label>
@@ -1246,7 +1225,6 @@ const ProfileTab = ({ currentUser, supabase, onReload }) => {
     </div>
   );
 };
-
 // ========================================
 // SERVICES TAB - MOBILE OPTIMIZED
 // ========================================
