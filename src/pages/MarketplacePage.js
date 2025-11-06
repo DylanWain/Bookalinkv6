@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import { supabase } from "../supabaseClient";
 import BookingModal from "../components/BookingModal";
 
 const MarketplacePage = () => {
   const navigate = useNavigate();
-  const { currentUser, supabase } = useAuth();
+  const { currentUser } = useAuth();
 
   const [sellers, setSellers] = useState([]);
   const [services, setServices] = useState([]);
@@ -152,7 +153,19 @@ const MarketplacePage = () => {
               justifyContent: "flex-end",
             }}
           >
-            {currentUser && (
+            <button
+              onClick={() => navigate("/")}
+              className="hubspot-button"
+              style={{
+                marginBottom: 0,
+                width: "auto",
+                padding: "8px 16px",
+                fontSize: "clamp(12px, 3vw, 14px)",
+              }}
+            >
+              🏠
+            </button>
+            {currentUser ? (
               <button
                 onClick={() => navigate("/dashboard")}
                 className="hubspot-button"
@@ -166,19 +179,38 @@ const MarketplacePage = () => {
               >
                 📊 Dashboard
               </button>
+            ) : (
+              <>
+                <button
+                  onClick={() => navigate("/login")}
+                  className="hubspot-button"
+                  style={{
+                    marginBottom: 0,
+                    width: "auto",
+                    padding: "8px 16px",
+                    fontSize: "clamp(12px, 3vw, 14px)",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  🔑 Login
+                </button>
+                <button
+                  onClick={() => navigate("/signup")}
+                  className="hubspot-button"
+                  style={{
+                    marginBottom: 0,
+                    width: "auto",
+                    padding: "8px 16px",
+                    fontSize: "clamp(12px, 3vw, 14px)",
+                    background: "var(--primary-color)",
+                    color: "#FFFFFF",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  ✨ Sign Up
+                </button>
+              </>
             )}
-            <button
-              onClick={() => navigate("/")}
-              className="hubspot-button"
-              style={{
-                marginBottom: 0,
-                width: "auto",
-                padding: "8px 16px",
-                fontSize: "clamp(12px, 3vw, 14px)",
-              }}
-            >
-              🏠
-            </button>
           </div>
         </div>
       </div>
