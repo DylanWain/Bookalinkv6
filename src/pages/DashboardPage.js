@@ -1305,7 +1305,7 @@ const ServicesTab = ({ services, currentUser, supabase, onReload }) => {
   };
 
   const handleDelete = async (id) => {
-    if (!confirm("Delete this service?")) return;
+    if (!window.confirm("Delete this service?")) return;
 
     try {
       const { error } = await supabase.from("services").delete().eq("id", id);
@@ -1641,7 +1641,7 @@ const ShopTab = ({ items, currentUser, supabase, onReload }) => {
   };
 
   const handleDelete = async (id) => {
-    if (!confirm("Delete this item?")) return;
+    if (!window.confirm("Delete this item?")) return;
 
     try {
       const { error } = await supabase.from("items").delete().eq("id", id);
@@ -1921,7 +1921,7 @@ const LinksTab = ({ links, currentUser, supabase, onReload }) => {
   };
 
   const handleDelete = async (id) => {
-    if (!confirm("Delete this link?")) return;
+    if (!window.confirm("Delete this link?")) return;
 
     try {
       const { error } = await supabase.from("links").delete().eq("id", id);
