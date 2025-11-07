@@ -43,8 +43,8 @@ const ImageUploader = ({
       const filePath = `${fileName}`;
 
       // Upload file
-      const { data, error } = await supabase.storage
-        .from("profile-images")
+const { error } = await supabase.storage
+  .from("profile-images")
         .upload(filePath, file, {
           cacheControl: "3600",
           upsert: false,
