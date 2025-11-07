@@ -668,17 +668,21 @@ const HomePage = () => {
             }}
           >
             {["About", "Pricing", "Blog", "Help", "Privacy"].map((link) => (
-              <a
+              <button
                 key={link}
-                href="#"
+                onClick={() => {}}
                 style={{
                   color: "#9CA3AF",
                   textDecoration: "none",
                   fontSize: "14px",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  padding: "0",
                 }}
               >
                 {link}
-              </a>
+              </button>
             ))}
           </div>
           <p style={{ color: "#6B7280", fontSize: "14px" }}>
