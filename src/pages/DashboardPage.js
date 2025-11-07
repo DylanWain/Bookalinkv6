@@ -2289,8 +2289,9 @@ const SocialTab = ({ currentUser, supabase, onReload }) => {
 // PORTFOLIO TAB - MOBILE OPTIMIZED
 // ========================================
 const PortfolioTab = ({ portfolioImages, currentUser, supabase, onReload }) => {
-
-
+  // eslint-disable-next-line no-unused-vars
+  const [uploading, setUploading] = React.useState(false);
+  
   const handleImageUpload = async (url) => {
     setUploading(true);
     try {
