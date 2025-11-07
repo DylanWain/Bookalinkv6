@@ -31,19 +31,23 @@ const DashboardPage = () => {
   const [portfolioImages, setPortfolioImages] = useState([]);
   const [orders, setOrders] = useState([]);
 
+  // FIXED: First useEffect
   useEffect(() => {
-    if (!currentUser) {
+    if (currentUser) {
+      loadAllData();
+      loadStats();
+    } else {
       navigate("/login");
-      return;
     }
-    loadAllData();
+  }, [currentUser, loadAllData, loadStats, navigate]);
 
+  // FIXED: Second useEffect - Added opening bracket
+  useEffect(() => {
     const interval = setInterval(() => {
       loadStats();
     }, 30000);
-
     return () => clearInterval(interval);
-  }, [currentUser]);
+  }, [loadStats]);
 
   const loadStats = async () => {
     if (!currentUser?.id) return;
@@ -2285,7 +2289,7 @@ const SocialTab = ({ currentUser, supabase, onReload }) => {
 // PORTFOLIO TAB - MOBILE OPTIMIZED
 // ========================================
 const PortfolioTab = ({ portfolioImages, currentUser, supabase, onReload }) => {
-  const [uploading, setUploading] = useState(false);
+
 
   const handleImageUpload = async (url) => {
     setUploading(true);
