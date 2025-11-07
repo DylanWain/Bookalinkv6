@@ -24,9 +24,9 @@ const SellerProfilePage = () => {
     type: null,
   });
 
-  useEffect(() => {
-    loadProfile();
-  }, [username]);
+useEffect(() => {
+  loadProfile();
+}, [username, loadProfile]);
 
   const loadProfile = async () => {
     try {
