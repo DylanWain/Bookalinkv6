@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "../supabaseClient";
@@ -24,9 +25,9 @@ const SellerProfilePage = () => {
     type: null,
   });
 
-useEffect(() => {
-  loadProfile();
-}, [username, loadProfile]);
+  useEffect(() => {
+    loadProfile();
+  }, [username]);
 
   const loadProfile = async () => {
     try {
